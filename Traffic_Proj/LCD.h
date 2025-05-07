@@ -21,18 +21,17 @@
 #include "stm32f4xx.h"
 #include "DELAY.h"
 
-#define RS 0x01    /* PB5 mask for reg select */
-#define RW 0x40     /* PB6 mask for read/write */
-#define EN 0x02     /* PB7 mask for enable */
+#define RS 0x01    /* PA0 mask for reg select */
+#define RW 0x00     /* PB6 mask for read/write */
+#define EN 0x02     /* PA1 mask for enable */
 
 void LCD_command(unsigned char command);
 void LCD_data(char data);
 void LCD_init(void);
 void PORTS_init(void);
 
-int rural_lcd(void) {
+void rural_lcd(void) {
 
-    while(1) {
 				/* clear LCD display */
         LCD_command(1);
         /* Write "RURAL" on LCD */
@@ -45,14 +44,10 @@ int rural_lcd(void) {
 
         
         delayMs(500);
-    }
 }
-int urban_lcd(void) {
-    /* initialize LCD controller */
-    LCD_init();
+void urban_lcd(void) {
 
-    while(1) {
-			/* clear LCD display */
+				/* clear LCD display */
         LCD_command(1);
         /* Write "URBAN" on LCD */
         LCD_data('U');
@@ -61,9 +56,6 @@ int urban_lcd(void) {
         LCD_data('A');
         LCD_data('N');
         delayMs(1000);
-
-        
-    }
 }
 
 /* initialize port pins then initialize LCD controller */
@@ -114,7 +106,7 @@ void LCD_command(unsigned char command) {
 void LCD_data(char data) {
     GPIOA->BSRR = RS;               /* RS = 1 */
     //GPIOA->BSRR = RW << 16;         /* R/W = 0 */
-    GPIOA->ODR = data;              /* put data on data bus */
+    GPIOC->ODR = (data & 0xFF);              /* put data on data bus */
     GPIOA->BSRR = EN;               /* pulse E high */
     delayMs(0);
     GPIOA->BSRR = EN << 16;         /* clear E */
