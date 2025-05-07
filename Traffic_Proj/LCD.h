@@ -11,9 +11,9 @@
  * board as follows:
  *
  * PC0-PC7 for LCD D0-D7, respectively.
- * PB5 for LCD R/S
- * PB6 for LCD R/W
- * PB7 for LCD EN
+ * PA0 for LCD R/S
+ * PB6 for LCD R/W ----- N/A
+ * PA1 for LCD EN
  *
  * This program was tested with Keil uVision v5.24a with DFP v2.11.0
  */
@@ -21,9 +21,9 @@
 #include "stm32f4xx.h"
 #include "DELAY.h"
 
-#define RS 0x20     /* PB5 mask for reg select */
+#define RS 0x01    /* PB5 mask for reg select */
 #define RW 0x40     /* PB6 mask for read/write */
-#define EN 0x80     /* PB7 mask for enable */
+#define EN 0x02     /* PB7 mask for enable */
 
 void LCD_command(unsigned char command);
 void LCD_data(char data);
@@ -84,14 +84,14 @@ void LCD_init(void) {
 }
 
 void PORTS_init(void) {
-    RCC->AHB1ENR |=  0x06;          /* enable GPIOB/C clock */
+    RCC->AHB1ENR |=  0x05;          /* enable GPIOA/C clock */
 
-    /* PB5 for LCD R/S */
-    /* PB6 for LCD R/W */
-    /* PB7 for LCD EN */
-    GPIOB->MODER &= ~0x0000FC00;    /* clear pin mode */
-    GPIOB->MODER |=  0x00005400;    /* set pin output mode */
-    GPIOB->BSRR = 0x00C00000;       /* turn off EN and R/W */
+    /* PA0 for LCD R/S */
+    /* N/A for LCD R/W */
+    /* PA1 for LCD EN */
+    GPIOA->MODER &= ~0x0000000F;    /* clear pin mode */
+    GPIOA->MODER |=  0x00000005;    /* set pin output mode */
+    GPIOA->BSRR   =  0x00000002;       /* turn off EN and R/W */
 
     /* PC0-PC7 for LCD D0-D7, respectively. */
     GPIOC->MODER &= ~0x0000FFFF;    /* clear pin mode */
@@ -99,11 +99,11 @@ void PORTS_init(void) {
 }
 
 void LCD_command(unsigned char command) {
-    GPIOB->BSRR = (RS | RW) << 16;  /* RS = 0, R/W = 0 */
+    GPIOA->BSRR = (RS | 0) << 16;  /* RS = 0, R/W = 0 */
     GPIOC->ODR = command;           /* put command on data bus */
-    GPIOB->BSRR = EN;               /* pulse E high */
+    GPIOA->BSRR = EN;               /* pulse E high */
     delayMs(0);
-    GPIOB->BSRR = EN << 16;         /* clear E */
+    GPIOA->BSRR = EN << 16;         /* clear E */
 
     if (command < 4)
         delayMs(2);         /* command 1 and 2 needs up to 1.64ms */
@@ -112,12 +112,12 @@ void LCD_command(unsigned char command) {
 }
 
 void LCD_data(char data) {
-    GPIOB->BSRR = RS;               /* RS = 1 */
-    GPIOB->BSRR = RW << 16;         /* R/W = 0 */
-    GPIOC->ODR = data;              /* put data on data bus */
-    GPIOB->BSRR = EN;               /* pulse E high */
+    GPIOA->BSRR = RS;               /* RS = 1 */
+    //GPIOA->BSRR = RW << 16;         /* R/W = 0 */
+    GPIOA->ODR = data;              /* put data on data bus */
+    GPIOA->BSRR = EN;               /* pulse E high */
     delayMs(0);
-    GPIOB->BSRR = EN << 16;         /* clear E */
+    GPIOA->BSRR = EN << 16;         /* clear E */
 
     delayMs(1);
 }

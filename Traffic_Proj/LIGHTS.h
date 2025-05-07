@@ -1,10 +1,10 @@
-#include "stm32f4xx.h"
+#include "stm32f446xx.h"
 
 /*
     NS red - pb4
     NS yellow - pb5
     NS green - pb6
-		NS Arrow yellow - pb7
+	NS Arrow yellow - pb7
     NS Arrow green - pb8
 		
     EW red - pb0
@@ -13,7 +13,6 @@
     EW Arrow yellow - pb10
     EW Arrow green - pb12
 */
-#include "stm32f446xx.h"
 
 void lights_init(){
 	RCC->AHB1ENR |= 0x02;

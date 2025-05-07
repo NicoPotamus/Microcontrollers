@@ -3,7 +3,7 @@
 #include "7SEGMENT.h"
 #include "stdbool.h"
 #include "SENSORS.h"
-#include "LCD.h"
+//#include "LCD.h"
 //delay is defined in 7Segment
 //#include "DELAY.h"
 
@@ -50,7 +50,7 @@ bool crossInterrupt= false;
 bool modeInterrupt = false;
 
 int main(void){
-	LCD_init();
+	//LCD_init();
 	lights_init();
 	sensors_init();
 	sevenSegment_init();
@@ -87,7 +87,7 @@ int main(void){
 	};
 	
 	while(1){
-		rural_lcd();
+		//rural_lcd();
 		
 		int currState = 0;
 		while(1){
@@ -127,7 +127,7 @@ int main(void){
 		}
 		
 		//LCD OUTPUT URBAN
-		urban_lcd();
+		//urban_lcd();
 		int currUrban = 0;
 		while(1){
 			output_lights(UFSM[currUrban].NS, UFSM[currUrban].EW);
