@@ -1,0 +1,9 @@
+--cpu=Cortex-M4.fp.sp
+".\main.o"
+".\delay.o"
+".\startup_stm32f446xx.o"
+".\system_stm32f4xx.o"
+--strict --scatter ".\traffic_proj.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\traffic_proj.map" -o .\traffic_proj.axf
