@@ -34,6 +34,7 @@ void rural_lcd(void) {
 
 				/* clear LCD display */
         LCD_command(1);
+				delayMs(500);
         /* Write "RURAL" on LCD */
         LCD_data('R');
         LCD_data('U');
@@ -43,12 +44,12 @@ void rural_lcd(void) {
         delayMs(1000);
 
         
-        delayMs(500);
 }
 void urban_lcd(void) {
 
 				/* clear LCD display */
         LCD_command(1);
+				delayMs(500);
         /* Write "URBAN" on LCD */
         LCD_data('U');
         LCD_data('R');

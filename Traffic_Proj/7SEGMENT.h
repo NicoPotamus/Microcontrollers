@@ -1,12 +1,12 @@
 /**
-* pa4- a
-* pa5- b
-* pa6- c
-* pa7- d
-* pa8- e
-* pa9- f
-* pa10- g
-* pa11- h
+* pa4- a - 7
+* pa5- b - 6
+* pa6- c - 4
+* pa7- d - 2
+* pa8- e - 1
+* pa9- f - 9
+* pa10- g - 10
+* pa11- h - 5
 * 
 */
 #include "stm32f4xx.h"
@@ -24,10 +24,10 @@ void sevenSegment_init(void) {
 void countdown_cross(void) {
 	
 	//number code for 0-9
-  int ledNums [] = {0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F};
+  int ledNums [] = {0x6F, 0x7F, 0x07, 0x7D, 0x6D, 0x66, 0x4F, 0x5B, 0x06, 0x3F, 0x80, 0x00, 0x80, 0x00, 0x80};
     
     //Start cycle
-		for(int i = 0; i < 10; i++){
+		for(int i = 0; i < 16; i++){
 				//bit shift left to account for pin offeset
 				GPIOA -> ODR = (ledNums[i] << 4);
 				delayMs(1000);
