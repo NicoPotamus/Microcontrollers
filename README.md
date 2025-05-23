@@ -1,2 +1,1 @@
-# Microcontrollers
-Microcontrollers NewPaltz spring 2025
+# Microcontrollers Labs + Project - New Paltz Spring 2025
